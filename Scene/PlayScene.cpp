@@ -24,7 +24,7 @@
 #include "Enemy/SoldierEnemy.hpp"
 #include "Enemy/TankEnemy.hpp"
 #include "Turret/TurretButton.hpp"
-
+#include <iostream>
 bool PlayScene::DebugMode = false;
 const std::vector<Engine::Point> PlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
 const int PlayScene::MapWidth = 20, PlayScene::MapHeight = 13;
@@ -46,9 +46,9 @@ void PlayScene::Initialize() {
 	keyStrokes.clear();
 	ticks = 0;
 	deathCountDown = -1;
-	lives = 10;
+	lives = 10; //10
 	money = 150;
-	SpeedMult = 1;
+	SpeedMult = 1; //1
 	// Add groups from bottom to top.
 	AddNewObject(TileMapGroup = new Group());
 	AddNewObject(GroundEffectGroup = new Group());
@@ -271,6 +271,7 @@ void PlayScene::OnKeyDown(int keyCode) {
 				++it;
 			}
 			EffectGroup->AddNewObject(new Plane());
+			EarnMoney(10000);
 		}
 	}
 	if (keyCode == ALLEGRO_KEY_Q) {
@@ -295,7 +296,7 @@ void PlayScene::Hit() {
 	lives--;
 	UILives->Text = std::string("Life ") + std::to_string(lives);
 	if (lives <= 0) {
-		Engine::GameEngine::GetInstance().ChangeScene("lose-scene");
+		Engine::GameEngine::GetInstance().ChangeScene("lose");
 	}
 }
 int PlayScene::GetMoney() const {
