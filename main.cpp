@@ -9,6 +9,7 @@
 #include "Scene/WinScene.hpp"
 #include "Scene/StartScene.h"
 #include "Scene/SettingsScene.hpp"
+#include "Scene/ScoreBoard.cpp" // Q: include hpp can't work
 #include <iostream>
 using namespace std;
 int main(int argc, char **argv) {
@@ -18,8 +19,8 @@ int main(int argc, char **argv) {
     // TODO: [HACKATHON-1-SCENE] (3/4): Register Scenes here
 	game.AddNewScene("start", new StartScene());
 	game.AddNewScene("stage-select", new StageSelectScene());
-
 	game.AddNewScene("settings", new SettingsScene());
+	game.AddNewScene("scoreboard-scene", new ScoreBoard());
 	game.AddNewScene("play", new PlayScene());
 	game.AddNewScene("lose", new LoseScene());
 	game.AddNewScene("win", new WinScene());
