@@ -33,6 +33,7 @@ void ScoreBoard::Initialize(){
     btn->SetOnClickCallback(std::bind(&ScoreBoard::BackOnClick, this, 1));
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("Next", "pirulen.ttf", 48, halfW + 500, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
+    
 
 }
 
