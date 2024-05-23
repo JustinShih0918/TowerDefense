@@ -6,7 +6,7 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/Users/justinshih/college/I2P2-TowerDefense/. -I/Users/justinshih/college/I2P2-TowerDefense/Resource -I/Users/justinshih/college/I2P2-TowerDefense/lib -I/opt/homebrew/Cellar/allegro/5.2.9.1/include
 
-CXX_FLAGSarm64 = -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
+CXX_FLAGSarm64 = -std=gnu++14 -arch arm64
 
-CXX_FLAGS = -std=gnu++14 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
+CXX_FLAGS = -std=gnu++14 -arch arm64
 
