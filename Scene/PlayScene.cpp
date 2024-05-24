@@ -24,6 +24,8 @@
 #include "Enemy/SoldierEnemy.hpp"
 #include "Enemy/TankEnemy.hpp"
 #include "Turret/TurretButton.hpp"
+#include "Engine/LOG.hpp"
+#include "Engine/GameEngine.hpp"
 #include <iostream>
 bool PlayScene::DebugMode = false;
 const std::vector<Engine::Point> PlayScene::directions = { Engine::Point(-1, 0), Engine::Point(0, -1), Engine::Point(1, 0), Engine::Point(0, 1) };
@@ -451,8 +453,11 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
 		return map;
 	que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
 	map[MapHeight - 1][MapWidth - 1] = 0;
+	Engine::LOG(Engine::INFO) << "hw: " << MapHeight <<" "<< MapWidth <<"\n";
+
 	while (!que.empty()) {
 		Engine::Point p = que.front();
+		Engine::LOG(Engine::INFO) << "Original point: " << p.x <<" "<< p.y <<"\n";
 		que.pop(); // Q: what will happen
 		// TODO: [BFS PathFinding] (1/1): Implement a BFS starting from the most right-bottom block in the map.
 		//               For each step you should assign the corresponding distance to the most right-bottom block.
@@ -461,12 +466,13 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
 		for(auto it : directions){
 			int newX = p.x + it.x;
 			int newY = p.y + it.y;
-
-			if(newX >= 0 && newX < MapWidth && newY >= 0 && newY < MapHeight && 
-			   mapState[newX][newY] == TILE_DIRT && map[newX][newY] == -1)
-			{
-				map[newX][newY] = map[p.x][p.y] + 1;
-				que.push(Engine::Point(newX,newY));
+			if(newX >= 0 && newX < MapWidth && newY >= 0 && newY < MapHeight){
+				//Engine::LOG(Engine::INFO) << "a good point: " << newX <<" "<<newY <<"\n";
+				if(map[newY][newX] == -1 && mapState[newY][newX] == TILE_DIRT){
+					// Engine::LOG(Engine::INFO) << "a good point: " << newX <<" "<<newY <<"\n";
+					map[newY][newX] = map[p.y][p.x] + 1;
+					que.push(Engine::Point(newX,newY));
+				}
 			}
 		}
 		
