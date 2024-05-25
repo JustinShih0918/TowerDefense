@@ -5,6 +5,7 @@
         "__split_buffer": "cpp",
         "deque": "cpp",
         "list": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "__node_handle": "cpp"
     }
 }
