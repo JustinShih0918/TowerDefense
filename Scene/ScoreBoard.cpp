@@ -34,6 +34,7 @@ void ScoreBoard::Initialize(){
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("Next", "pirulen.ttf", 48, halfW + 500, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
     
+    AddNewObject(new Engine::Label("ScoreBoard", "pirulen.ttf", 48, halfW - 200, halfH / 2, 400, 100));
 
 }
 
