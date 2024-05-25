@@ -23,6 +23,7 @@
 #include "Engine/Resources.hpp"
 #include "Enemy/SoldierEnemy.hpp"
 #include "Enemy/TankEnemy.hpp"
+#include "Enemy/DoubleTankEnemy.cpp"
 #include "Turret/TurretButton.hpp"
 #include "Engine/LOG.hpp"
 #include "Engine/GameEngine.hpp"
@@ -162,6 +163,9 @@ void PlayScene::Update(float deltaTime) {
 			break;
 		case 3:
 			EnemyGroup->AddNewObject(enemy = new TankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
+			break;
+		case 4:
+			EnemyGroup->AddNewObject(enemy = new DoubleTankEnemy(SpawnCoordinate.x, SpawnCoordinate.y));
 			break;
         // TODO: [CUSTOM-ENEMY]: You need to modify 'Resource/enemy1.txt', or 'Resource/enemy2.txt' to spawn the 4th enemy.
         //         The format is "[EnemyId] [TimeDelay] [Repeat]".
@@ -453,12 +457,12 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
 		return map;
 	que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
 	map[MapHeight - 1][MapWidth - 1] = 0;
-	Engine::LOG(Engine::INFO) << "hw: " << MapHeight <<" "<< MapWidth <<"\n";
+	//Engine::LOG(Engine::INFO) << "hw: " << MapHeight <<" "<< MapWidth <<"\n";
 
 	while (!que.empty()) {
 		Engine::Point p = que.front();
-		Engine::LOG(Engine::INFO) << "Original point: " << p.x <<" "<< p.y <<"\n";
-		que.pop(); // Q: what will happen
+		//Engine::LOG(Engine::INFO) << "Original point: " << p.x <<" "<< p.y <<"\n";
+		que.pop();
 		// TODO: [BFS PathFinding] (1/1): Implement a BFS starting from the most right-bottom block in the map.
 		//               For each step you should assign the corresponding distance to the most right-bottom block.
 		//               mapState[y][x] is TILE_DIRT if it is empty.
