@@ -48,7 +48,6 @@ void Enemy::Hit(float damage) {
 		for (auto& it: lockedBullets)
 			it->Target = nullptr;
 		if(money == 100){
-			std::cout <<"Die point: "<< Position.x << " " << Position.y << "\n";
 			getPlayScene()->RangeExplode(Position.x,Position.y);
 		}
 		getPlayScene()->EarnMoney(money);

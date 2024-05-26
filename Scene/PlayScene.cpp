@@ -539,11 +539,9 @@ void PlayScene::RangeExplode(float x, float y){
 		if(pos.first >= 0 && pos.first < MapWidth && pos.second >=0 && pos.second < MapHeight){
 			int checkX = pos.first * BlockSize + BlockSize / 2;
 			int checkY = pos.second * BlockSize + BlockSize / 2;
-			//std::cout << "valid point: " << checkX << " " <<checkY << "\n";
 			auto ls = TowerGroup->GetObjects();
 			for(auto it : ls){
 				if(it->Position.x == checkX && it->Position.y == checkY){
-					std::cout<<"Delete\n";
 					TowerGroup->RemoveObject(it->GetObjectIterator());
 					mapState[pos.second][pos.first] = TILE_DIRT;
 					break;
