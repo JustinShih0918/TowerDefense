@@ -26,6 +26,7 @@
 #include "Enemy/TankEnemy.hpp"
 #include "Enemy/DoubleTankEnemy.cpp"
 #include "Turret/TurretButton.hpp"
+#include "Turret/Shovel.cpp"
 #include "Engine/LOG.hpp"
 #include "Engine/GameEngine.hpp"
 #include <iostream>
@@ -232,7 +233,7 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
 			if (!preview)
 				return;
 			// Check if valid.
-			if (!CheckSpaceValid(x, y)) {
+			if (!CheckSpaceValid(x, y) || preview->GetPrice() == 0) {
 				Engine::Sprite* sprite;
 				GroundEffectGroup->AddNewObject(sprite = new DirtyEffect("play/target-invalid.png", 1, x * BlockSize + BlockSize / 2, y * BlockSize + BlockSize / 2));
 				sprite->Rotation = 0;
@@ -257,6 +258,26 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
 
 			mapState[y][x] = TILE_OCCUPIED;
 			OnMouseMove(mx, my);
+		}
+		else{
+			if(!preview || preview->GetPrice() != 0) return;
+
+			preview->GetObjectIterator()->first = false;
+			UIGroup->RemoveObject(preview->GetObjectIterator());
+
+			preview->Position.x = x * BlockSize + BlockSize / 2;
+			preview->Position.y = y * BlockSize + BlockSize / 2;
+
+			auto ls = TowerGroup->GetObjects();
+			for(auto it : ls){
+				if(it->Position.x == preview->Position.x && it->Position.y == preview->Position.y){
+					TowerGroup->RemoveObject(it->GetObjectIterator());
+					break;
+				}
+			}
+			preview = nullptr;
+			mapState[y][x] = TILE_DIRT;
+			//OnMouseMove(mx,my);
 		}
 	}
 }
@@ -403,8 +424,8 @@ void PlayScene::ConstructUI() {
 
 	btn = new TurretButton("play/floor.png", "play/dirt.png",
 		Engine::Sprite("play/tower-base.png", 1294, 136 + 80, 0, 0, 0, 0),
-		Engine::Sprite("play/turret-4.png", 1294, 136 + 80, 0, 0, 0, 0)
-		, 1294, 136 + 80, LightTurret::Price);
+		Engine::Sprite("play/shovel.png", 1294, 136 + 80, 0, 0, 0, 0)
+		, 1294, 136 + 80, Shovel::Price);
 	btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 4));
 	UIGroup->AddNewControlObject(btn);
 
@@ -428,6 +449,8 @@ void PlayScene::UIBtnClicked(int id) {
 		preview = new MissileTurret(0, 0);
 	else if (id == 3 && money >= LightTurret::Price)
 		preview = new LightTurret(0, 0);
+	else if (id == 4 && money >= Shovel::Price)
+		preview = new Shovel(0,0);
 	if (!preview)
 		return;
 
