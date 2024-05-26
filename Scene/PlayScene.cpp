@@ -7,7 +7,7 @@
 #include <queue>
 #include <string>
 #include <memory>
-
+#include "UI/Animation/ExplosionEffect.hpp"
 #include "Engine/AudioHelper.hpp"
 #include "UI/Animation/DirtyEffect.hpp"
 #include "Enemy/Enemy.hpp"
@@ -281,6 +281,7 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
 		}
 	}
 }
+
 void PlayScene::OnKeyDown(int keyCode) {
 	IScene::OnKeyDown(keyCode);
 	if (keyCode == ALLEGRO_KEY_TAB) {
@@ -520,4 +521,37 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
 		
 	}
 	return map;
+}
+
+void PlayScene::RangeExplode(float x, float y){
+	int xHere = floor(x / BlockSize);
+	int yHere = floor(y / BlockSize);
+	std::vector<std::pair<int,int>> p;
+	int radius = 4;
+	for(int i = 0;i<radius;i++){
+		p.push_back(std::pair<int,int>(xHere+i,yHere));
+		p.push_back(std::pair<int,int>(xHere-i,yHere));
+		p.push_back(std::pair<int,int>(xHere,yHere+i));
+		p.push_back(std::pair<int,int>(xHere,yHere-i));
+	}
+	int len = p.size();
+	for(auto pos : p){
+		if(pos.first >= 0 && pos.first < MapWidth && pos.second >=0 && pos.second < MapHeight){
+			int checkX = pos.first * BlockSize + BlockSize / 2;
+			int checkY = pos.second * BlockSize + BlockSize / 2;
+			//std::cout << "valid point: " << checkX << " " <<checkY << "\n";
+			auto ls = TowerGroup->GetObjects();
+			for(auto it : ls){
+				if(it->Position.x == checkX && it->Position.y == checkY){
+					std::cout<<"Delete\n";
+					TowerGroup->RemoveObject(it->GetObjectIterator());
+					mapState[pos.second][pos.first] = TILE_DIRT;
+					break;
+				}
+			}
+			int effectX = pos.first * BlockSize;
+			int effectY = pos.second * BlockSize;
+			EffectGroup->AddNewObject(new ExplosionEffect(effectX,effectY));
+		}
+	}
 }

@@ -38,6 +38,8 @@ Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float
 }
 void Enemy::Hit(float damage) {
 	hp -= damage;
+	int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
+	int y = static_cast<int>(floor(Position.y / PlayScene::BlockSize));
 	if (hp <= 0) {
 		OnExplode();
 		// Remove all turret's reference to target.
@@ -45,6 +47,10 @@ void Enemy::Hit(float damage) {
 			it->Target = nullptr;
 		for (auto& it: lockedBullets)
 			it->Target = nullptr;
+		if(money == 100){
+			std::cout <<"Die point: "<< Position.x << " " << Position.y << "\n";
+			getPlayScene()->RangeExplode(Position.x,Position.y);
+		}
 		getPlayScene()->EarnMoney(money);
 		getPlayScene()->EnemyGroup->RemoveObject(objectIterator);
 		AudioHelper::PlayAudio("explosion.wav");
