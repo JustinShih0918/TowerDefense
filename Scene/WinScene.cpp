@@ -100,7 +100,7 @@ void WinScene::OnKeyDown(int keyCode){
 		startIndex--;
 		RemoveChar();
 	}
-	else if(keyCode >= 1 && keyCode <= 26){
+	else if(keyCode >= 1 && keyCode <= 26 && playerName.size() <= 8){
 		if(playerName.empty()){
 			playerName.push_back(parseKeyCode(keyCode,1));
 			startIndex = 0;
