@@ -29,12 +29,12 @@ void ScoreBoard::Initialize(){
     AddNewObject(new Engine::Label("Back", "pirulen.ttf", 48, halfW, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
 
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 700, halfH * 3 / 2 - 50, 400, 100);
-    btn->SetOnClickCallback(std::bind(&ScoreBoard::BackOnClick, this, 2));
+    btn->SetOnClickCallback(std::bind(&ScoreBoard::PrevOnClick, this, 2));
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("Prev", "pirulen.ttf", 48, halfW - 500, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
 
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW + 300, halfH * 3 / 2 - 50, 400, 100);
-    btn->SetOnClickCallback(std::bind(&ScoreBoard::BackOnClick, this, 3));
+    btn->SetOnClickCallback(std::bind(&ScoreBoard::NextOnClick, this, 3));
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("Next", "pirulen.ttf", 48, halfW + 500, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
     
@@ -43,38 +43,35 @@ void ScoreBoard::Initialize(){
     DrawPlayerScore();
 }
 
-void ScoreBoard::Update(float deltaTime){
-    IScene::Update(deltaTime);
-    // DrawPlayerScore();
-}
-
 void ScoreBoard::Terminate(){
     IScene::Terminate();
 }
 
 void ScoreBoard::BackOnClick(int stage){
-    if(stage == 1) Engine::GameEngine::GetInstance().ChangeScene("stage-select");
-    else if(stage == 2){
-        if(startIndex - 5 >= 0){
+    Engine::GameEngine::GetInstance().ChangeScene("stage-select");
+}
+
+void ScoreBoard::PrevOnClick(int stage){
+    if(startIndex - 5 >= 0){
             startIndex -= 5;
         }
-        else startIndex = 0;
+    else startIndex = 0;
+    RemoveScore();
+    DrawPlayerScore();
+}
+
+void ScoreBoard::NextOnClick(int stage){
+    if(startIndex < PlayerList.size()){
+        if(startIndex + 5 < PlayerList.size()){
+            startIndex += 5;
+        }
+        else{
+            startIndex += PlayerList.size()%5;
+        }
+    }
+    if(startIndex < PlayerList.size()){
         RemoveScore();
         DrawPlayerScore();
-    }
-    else if(stage == 3){
-        if(startIndex < PlayerList.size()){
-            if(startIndex + 5 < PlayerList.size()){
-                startIndex += 5;
-            }
-            else{
-                startIndex += PlayerList.size()%5;
-            }
-        }
-        if(startIndex < PlayerList.size()){
-            RemoveScore();
-            DrawPlayerScore();
-        }
     }
 }
 

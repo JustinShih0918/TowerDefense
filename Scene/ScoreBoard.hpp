@@ -15,14 +15,12 @@ class ScoreBoard final : public Engine::IScene{
         explicit ScoreBoard() = default;
         void Initialize() override;
         void Terminate() override;
-        //void ScoreboardOnClick();
-        // void PrevOnClick();
-        // void NextOnClick();
+        void PrevOnClick(int stage);
+        void NextOnClick(int stage);
         void BackOnClick(int stage);
         void ReadPlayerScore();
         void DrawPlayerScore();
         void RemoveScore();
-        void Update(float deltaTime) override;
 };
 
 #endif
