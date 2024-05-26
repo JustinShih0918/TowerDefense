@@ -86,6 +86,7 @@ void ScoreBoard::ReadPlayerScore() {
 		PlayerList.emplace_back(name,point);
 	}
 	fin.close();
+    PlayerList.sort([](const std::pair<std::string,int> &a, std::pair<std::string,int> &b){return a.second > b.second;});
 }
 
 void ScoreBoard::DrawPlayerScore(){
