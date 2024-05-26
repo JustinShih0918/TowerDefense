@@ -293,7 +293,7 @@ void PlayScene::OnKeyDown(int keyCode) {
 		// Hotkey for MissileTurret.
 		UIBtnClicked(2);
 	}
-	// TODOnow: [CUSTOM-TURRET]: Make specific key to create the turret. //Q: what is this
+	// TODO: [CUSTOM-TURRET]: Make specific key to create the turret. //Q: what is this
 	else if (keyCode >= ALLEGRO_KEY_0 && keyCode <= ALLEGRO_KEY_9) {
 		// Hotkey for Speed up.
 		SpeedMult = keyCode - ALLEGRO_KEY_0;
@@ -392,12 +392,19 @@ void PlayScene::ConstructUI() {
 		, 1446, 136, MissileTurret::Price);
 	btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 2));
 	UIGroup->AddNewControlObject(btn);
-	// TODOnow: [CUSTOM-TURRET]: Create a button to support constructing the turret. //done
+	// TODO: [CUSTOM-TURRET]: Create a button to support constructing the turret.
 	btn = new TurretButton("play/floor.png", "play/dirt.png",
 		Engine::Sprite("play/tower-base.png", 1522, 136, 0, 0, 0, 0),
 		Engine::Sprite("play/turret-4.png", 1522, 136, 0, 0, 0, 0)
 		, 1522, 136, LightTurret::Price);
 	btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 3));
+	UIGroup->AddNewControlObject(btn);
+
+	btn = new TurretButton("play/floor.png", "play/dirt.png",
+		Engine::Sprite("play/tower-base.png", 1294, 136 + 80, 0, 0, 0, 0),
+		Engine::Sprite("play/turret-4.png", 1294, 136 + 80, 0, 0, 0, 0)
+		, 1294, 136 + 80, LightTurret::Price);
+	btn->SetOnClickCallback(std::bind(&PlayScene::UIBtnClicked, this, 4));
 	UIGroup->AddNewControlObject(btn);
 
 	int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
@@ -468,11 +475,9 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
 		return map;
 	que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
 	map[MapHeight - 1][MapWidth - 1] = 0;
-	//Engine::LOG(Engine::INFO) << "hw: " << MapHeight <<" "<< MapWidth <<"\n";
 
 	while (!que.empty()) {
 		Engine::Point p = que.front();
-		//Engine::LOG(Engine::INFO) << "Original point: " << p.x <<" "<< p.y <<"\n";
 		que.pop();
 		// TODO: [BFS PathFinding] (1/1): Implement a BFS starting from the most right-bottom block in the map.
 		//               For each step you should assign the corresponding distance to the most right-bottom block.
@@ -482,9 +487,7 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
 			int newX = p.x + it.x;
 			int newY = p.y + it.y;
 			if(newX >= 0 && newX < MapWidth && newY >= 0 && newY < MapHeight){
-				//Engine::LOG(Engine::INFO) << "a good point: " << newX <<" "<<newY <<"\n";
 				if(map[newY][newX] == -1 && mapState[newY][newX] == TILE_DIRT){
-					// Engine::LOG(Engine::INFO) << "a good point: " << newX <<" "<<newY <<"\n";
 					map[newY][newX] = map[p.y][p.x] + 1;
 					que.push(Engine::Point(newX,newY));
 				}

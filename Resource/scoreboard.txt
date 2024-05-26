@@ -8,3 +8,6 @@ DaHua 30
 DaMei 40
 DaWang 50
 XiaoWang 60
+Jusint 100
+Nana 200
+jamie 32
