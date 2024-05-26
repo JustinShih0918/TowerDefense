@@ -18,6 +18,8 @@
 using namespace std;
 void ScoreBoard::Initialize(){
     startIndex = 0;
+    PlayerList.clear();
+    nowDrawing.clear();
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
     int h = Engine::GameEngine::GetInstance().GetScreenSize().y;
     int halfW = w / 2;
@@ -54,7 +56,7 @@ void ScoreBoard::BackOnClick(int stage){
 void ScoreBoard::PrevOnClick(int stage){
     if(startIndex - 5 >= 0){
             startIndex -= 5;
-        }
+    }
     else startIndex = 0;
     RemoveScore();
     DrawPlayerScore();
