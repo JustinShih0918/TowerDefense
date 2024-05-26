@@ -105,7 +105,7 @@ void ScoreBoard::DrawPlayerScore(){
     for(int i = 0;i < startIndex && i < len;i++) it = next(it);
     for(int i = 0;i<5 && i + startIndex < PlayerList.size();i++){
         Engine::Label* name = new Engine::Label(it->first, "pirulen.ttf", 36, halfW - 150, nowY + edge*i, 255, 255, 255, 255 , 0.5, 0.5);
-        Engine::Label* score = new Engine::Label(to_string(it->second), "pirulen.ttf", 36, halfW - 25 + 200, nowY + edge*i, 255, 255, 255, 255 , 0.5, 0.5);
+        Engine::Label* score = new Engine::Label(to_string(it->second), "pirulen.ttf", 36, halfW - 28 + 200, nowY + edge*i, 255, 255, 255, 255 , 0.5, 0.5);
         AddNewObject(name);
         AddNewObject(score);
         nowDrawing.push_back(pair<Engine::IObject*,Engine::IObject*>(name,score));

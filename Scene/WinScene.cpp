@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include "Engine/AudioHelper.hpp"
 #include "Engine/GameEngine.hpp"
 #include "UI/Component/Image.hpp"
@@ -28,8 +29,7 @@ void WinScene::Initialize() {
 	AddNewControlObject(btn);
 	AddNewObject(new Engine::Label("Back", "pirulen.ttf", 48, halfW, halfH * 7 / 4, 0, 0, 0, 255, 0.5, 0.5));
 	bgmId = AudioHelper::PlayAudio("win.wav");
-	
-	int score = dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetScene("play"))->score;
+
 	AddNewObject(new Engine::Image("win/textInput.png", halfW, halfH / 4 + 80, 800, 100,0.5,0.5));
 }
 void WinScene::Terminate() {
@@ -46,6 +46,22 @@ void WinScene::Update(float deltaTime) {
 }
 void WinScene::BackOnClick(int stage) {
 	// Change to select scene.
+	ofstream ofin;
+	ofin.open("./Resource/scoreboard.txt",ios::app);
+	ofin << "\n";
+	int len = playerName.size();
+	for(int i = 0;i<len;i++){
+		ofin << playerName[i];
+	}
+	ofin << " " << dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetScene("play"))->score << "\n";
+	ofin.close();
+	ofin.open("./build/Resource/scoreboard.txt",ios::app);
+	ofin << "\n";
+	for(int i = 0;i<len;i++){
+		ofin << playerName[i];
+	}
+	ofin << " " << dynamic_cast<PlayScene*>(Engine::GameEngine::GetInstance().GetScene("play"))->score << "\n";
+	ofin.close();
 	Engine::GameEngine::GetInstance().ChangeScene("stage-select");
 }
 
@@ -95,7 +111,4 @@ void WinScene::OnKeyDown(int keyCode){
 		}
 		DrawName();
 	}
-
-
-
 }
