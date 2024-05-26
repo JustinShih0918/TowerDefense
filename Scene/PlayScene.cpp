@@ -145,7 +145,7 @@ void PlayScene::Update(float deltaTime) {
 				delete EffectGroup;
 				delete UIGroup;
 				delete imgTarget;*/
-				score = money; //Q:does tick means time?
+				score = money * ticks / 500 + lives; //Q:does tick means time?
 				Engine::GameEngine::GetInstance().ChangeScene("win");
 			}
 			continue;
