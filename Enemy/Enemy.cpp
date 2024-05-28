@@ -38,6 +38,9 @@ Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float
 }
 void Enemy::Hit(float damage) {
 	hp -= damage;
+	if(damage == 0.5){
+		if(speed - 10 >= 20) speed -= 10;
+	}
 	int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
 	int y = static_cast<int>(floor(Position.y / PlayScene::BlockSize));
 	if (hp <= 0) {
