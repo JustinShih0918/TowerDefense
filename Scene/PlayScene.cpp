@@ -272,6 +272,7 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
 			for(auto it : ls){
 				if(it->Position.x == preview->Position.x && it->Position.y == preview->Position.y){
 					TowerGroup->RemoveObject(it->GetObjectIterator());
+					EarnMoney(50);
 					break;
 				}
 			}
